@@ -2,9 +2,9 @@
 
 # OpenMeteo
 
-</div>
-
 Exploration of the OpenMeteo APIs
+
+</div>
 
 ## Usage
 TBW
