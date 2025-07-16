@@ -4,6 +4,8 @@
 
 </div>
 
+Exploration of the OpenMeteo APIs
+
 ## Usage
 TBW
 
