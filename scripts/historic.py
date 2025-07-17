@@ -13,7 +13,15 @@ def main() -> None:
         "longitude": -75.97799,
         "start_date": "2025-07-01",
         "end_date": "2025-07-16",
-        "hourly": ["temperature_2m"],
+        "hourly": [
+            "temperature_2m",
+            "temperature_80m",
+            "temperature_120m",
+            "temperature_180m",
+            "pressure_msl",
+            "surface_pressure",
+            "dew_point_2m",
+        ],
     }
 
     res = make_request(params=params)
