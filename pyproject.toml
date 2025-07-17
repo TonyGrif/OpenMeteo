@@ -9,6 +9,9 @@ dependencies = [
     "openmeteo-requests>=1.5.0",
 ]
 
+[project.scripts]
+geocode = "geocoding.__main__:main"
+
 [dependency-groups]
 dev = [
     "poethepoet>=0.36.0",
