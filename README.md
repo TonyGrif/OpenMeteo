@@ -2,9 +2,9 @@
 
 # OpenMeteo
 
-</div>
-
 Exploration of the OpenMeteo APIs
+
+</div>
 
 ## Requirements
 * [Python 3.x+](https://www.python.org/)
