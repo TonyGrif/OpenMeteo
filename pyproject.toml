@@ -10,7 +10,7 @@ dependencies = [
 ]
 
 [project.scripts]
-geocode = "geocoding.__main__:main"
+geocode = "scripts.geocoding:main"
 
 [dependency-groups]
 dev = [
