@@ -1,6 +1,6 @@
 [project]
 name = "openmeteo"
-version = "0.1"
+version = "0.2"
 description = "Exploration of the OpenMeteo APIs"
 readme = "README.md"
 requires-python = ">=3.13"
