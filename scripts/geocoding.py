@@ -1,18 +1,15 @@
+"""This module provides a script to test the Geocoding API"""
+
 import json
-from typing import Dict, List, Optional
 from pprint import pprint
-import httpx
+from typing import Dict, List, Optional
 
-GEOCODING_URL = "https://geocoding-api.open-meteo.com/v1/search"
-
-
-def make_request(params: Dict) -> httpx.Response:
-    res = httpx.get(GEOCODING_URL, params=params)
-    res.raise_for_status()
-    return res
+from geocoding import make_request
 
 
 def main() -> None:
+    """Main script and entry point for this module"""
+    # TODO: Allow passing this in via CLI
     params = {
         "name": "Virginia Beach",
         "count": 10,
@@ -20,7 +17,10 @@ def main() -> None:
         "language": "en",
         "countryCode": "US",
     }
+
     res = json.loads(make_request(params=params).text)
+
+    # TODO: Create some filtering methods, for resuse
     data = [entry for entry in res["results"] if entry["admin1"] == "Virginia"]
 
     save_keys = ["latitude", "longitude", "name"]
