@@ -19,10 +19,13 @@ dev = [
     "ty>=0.0.1a14",
 ]
 
+[tool.ruff.lint]
+select = ["E", "F", "I"]
+
 [tool.poe.tasks]
-_imports = "ruff check --select I --fix ."
+_clean = "ruff check --fix ."
 _format = "ruff format ."
-format.sequence = ["_imports", "_format"]
+format.sequence = ["_clean", "_format"]
 
 _type = "ty check ."
 _check = "ruff check ."

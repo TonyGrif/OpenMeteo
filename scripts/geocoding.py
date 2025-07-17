@@ -2,7 +2,7 @@
 
 import json
 from pprint import pprint
-from typing import Dict, List, Optional
+from typing import Dict, List
 
 from geocoding import make_request
 
