@@ -1,5 +1,6 @@
 # Saved data
 *.json
+*.csv
 *.db
 
 # Byte-compiled / optimized / DLL files

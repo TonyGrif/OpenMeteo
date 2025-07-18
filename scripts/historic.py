@@ -1,10 +1,13 @@
 """This module provides a script to test the Historic Weather API"""
 
-import sqlite3
-
+from typing import Dict
 import pandas as pd
 
 from historic import make_request
+
+
+def parse_single_hourly(hourly, keys: Dict, search_key: str):
+    return hourly.Variables(*[k for k in keys if keys[k] == search_key]).ValuesAsNumpy()
 
 
 def main() -> None:
@@ -19,6 +22,11 @@ def main() -> None:
         6: "rain",
         7: "snowfall",
         8: "snow_depth",
+        9: "wind_speed_10m",
+        10: "wind_speed_100m",
+        11: "wind_direction_10m",
+        12: "wind_direction_100m",
+        13: "wind_gusts_10m",
     }
 
     # TODO: Allow passing this in via CLI
@@ -42,48 +50,43 @@ def main() -> None:
         )
     }
 
-    # TODO: This is nasty and reused code hello, fix this pls
-    hour_df["temperature_2m"] = hourly.Variables(
-        *[k for k in hourly_keys if hourly_keys[k] == "temperature_2m"]
-    ).ValuesAsNumpy()
+    hour_df["temperature_2m"] = parse_single_hourly(
+        hourly, hourly_keys, "temperature_2m"
+    )
+    hour_df["dewpoint_2m"] = parse_single_hourly(hourly, hourly_keys, "dewpoint_2m")
 
-    hour_df["dewpoint_2m"] = hourly.Variables(
-        *[k for k in hourly_keys if hourly_keys[k] == "dewpoint_2m"]
-    ).ValuesAsNumpy()
-
-    hour_df["apparent_temperature"] = hourly.Variables(
-        *[k for k in hourly_keys if hourly_keys[k] == "apparent_temperature"]
-    ).ValuesAsNumpy()
-
-    hour_df["sealevel_pressure"] = hourly.Variables(
-        *[k for k in hourly_keys if hourly_keys[k] == "pressure_msl"]
-    ).ValuesAsNumpy()
-
-    hour_df["surface_pressure"] = hourly.Variables(
-        *[k for k in hourly_keys if hourly_keys[k] == "surface_pressure"]
-    ).ValuesAsNumpy()
-
-    hour_df["precipitation"] = hourly.Variables(
-        *[k for k in hourly_keys if hourly_keys[k] == "precipitation"]
-    ).ValuesAsNumpy()
-
-    hour_df["rain"] = hourly.Variables(
-        *[k for k in hourly_keys if hourly_keys[k] == "rain"]
-    ).ValuesAsNumpy()
-
-    hour_df["snowfall"] = hourly.Variables(
-        *[k for k in hourly_keys if hourly_keys[k] == "snowfall"]
-    ).ValuesAsNumpy()
-
-    hour_df["snow_depth"] = hourly.Variables(
-        *[k for k in hourly_keys if hourly_keys[k] == "snow_depth"]
-    ).ValuesAsNumpy()
+    hour_df["apparent_temperature"] = parse_single_hourly(
+        hourly, hourly_keys, "apparent_temperature"
+    )
+    hour_df["sealevel_pressure"] = parse_single_hourly(
+        hourly, hourly_keys, "pressure_msl"
+    )
+    hour_df["surface_pressure"] = parse_single_hourly(
+        hourly, hourly_keys, "surface_pressure"
+    )
+    hour_df["precipitation"] = parse_single_hourly(hourly, hourly_keys, "precipitation")
+    hour_df["rain"] = parse_single_hourly(hourly, hourly_keys, "rain")
+    hour_df["snowfall"] = parse_single_hourly(hourly, hourly_keys, "snowfall")
+    hour_df["snow_depth"] = parse_single_hourly(hourly, hourly_keys, "snow_depth")
+    hour_df["wind_speed_10m"] = parse_single_hourly(
+        hourly, hourly_keys, "wind_speed_10m"
+    )
+    hour_df["wind_speed_100m"] = parse_single_hourly(
+        hourly, hourly_keys, "wind_speed_100m"
+    )
+    hour_df["wind_direction_10m"] = parse_single_hourly(
+        hourly, hourly_keys, "wind_direction_10m"
+    )
+    hour_df["wind_direction_100m"] = parse_single_hourly(
+        hourly, hourly_keys, "wind_direction_100m"
+    )
+    hour_df["wind_gusts_10m"] = parse_single_hourly(
+        hourly, hourly_keys, "wind_gusts_10m"
+    )
 
     hour_df = pd.DataFrame(data=hour_df)
-
-    con = sqlite3.connect("vb.db")
-    hour_df.to_sql("hourly", con)
-    print("Data saved to db")
+    hour_df.to_csv("vb.csv", index=False)
+    print("Data saved to csv")
 
 
 if __name__ == "__main__":
